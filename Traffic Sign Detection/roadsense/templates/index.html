@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RoadSense — AI Road Sign Recognition</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/static/css/style.css" />
+</head>
+<body>
+
+  <!-- ── Navbar ── -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-inner">
+      <div class="nav-brand">
+        <div class="brand-logo">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M2 17l10 5 10-5"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+        </div>
+        <span class="brand-text">Road<span class="brand-accent">Sense</span></span>
+      </div>
+      <div class="nav-right">
+        <div class="nav-stat">
+          <span class="nav-stat-dot"></span>
+          <span>Model Online</span>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ══ HERO ══ -->
+  <section class="hero">
+    <div class="hero-bg-image"></div>
+    <div class="hero-bg-grid"></div>
+    <div class="hero-glow hero-glow--1"></div>
+    <div class="hero-glow hero-glow--2"></div>
+
+    <div class="hero-inner">
+      <div class="hero-eyebrow">
+        <span class="eyebrow-dot"></span>
+        Australian Road Sign Recognition
+      </div>
+      <h1 class="hero-title">
+        See the road<br/>
+        <span class="hero-title-gradient">through AI eyes</span>
+      </h1>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <span class="hero-stat-num">36K+</span>
+          <span class="hero-stat-label">Training Images</span>
+        </div>
+        <div class="hero-stat-divider"></div>
+        <div class="hero-stat">
+          <span class="hero-stat-num">15</span>
+          <span class="hero-stat-label">Sign Classes</span>
+        </div>
+        <div class="hero-stat-divider"></div>
+        <div class="hero-stat">
+          <span class="hero-stat-num">99.82%</span>
+          <span class="hero-stat-label">Test Accuracy</span>
+        </div>
+        <div class="hero-stat-divider"></div>
+        <div class="hero-stat">
+          <span class="hero-stat-num">64px</span>
+          <span class="hero-stat-label">Input Resolution</span>
+        </div>
+      </div>
+      <a href="#workspace" class="hero-cta">
+        Try It Now
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/>
+        </svg>
+      </a>
+    </div>
+
+  </section>
+
+  <!-- ══ WORKSPACE ══ -->
+  <section class="workspace-section" id="workspace">
+    <div class="workspace-inner">
+
+      <div class="section-label">
+        <span class="section-label-line"></span>
+        Live Classifier
+        <span class="section-label-line"></span>
+      </div>
+
+      <div class="workspace-grid">
+
+        <!-- ── Upload Panel ── -->
+        <div class="glass-card upload-card">
+          <div class="card-header">
+            <div class="card-header-left">
+              <div class="card-icon card-icon--blue">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                  <polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
+                </svg>
+              </div>
+              <div>
+                <div class="card-title">Upload Image</div>
+              </div>
+            </div>
+            <div class="card-status" id="uploadStatus">
+              <span class="status-dot status-dot--idle"></span>
+              <span class="status-text">Waiting</span>
+            </div>
+          </div>
+
+          <!-- Drop Zone -->
+          <div class="drop-zone" id="dropZone">
+            <input type="file" id="fileInput" accept="image/*" hidden />
+
+            <div class="drop-idle" id="dropIdle">
+              <div class="drop-icon-ring">
+                <div class="drop-icon-inner">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                    <polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
+                  </svg>
+                </div>
+              </div>
+              <p class="drop-headline">Drop your image here</p>
+              <p class="drop-or">or</p>
+              <button class="btn-browse" id="browseBtn">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/>
+                </svg>
+                Browse Files
+              </button>
+            </div>
+
+            <!-- Preview -->
+            <div class="drop-preview" id="dropPreview" style="display:none;">
+              <div class="preview-container">
+                <div class="preview-img-wrap">
+                  <img id="previewImg" src="" alt="Preview" />
+                  <div class="scan-beam" id="scanBeam"></div>
+                  <div class="preview-corners">
+                    <span class="corner corner--tl"></span>
+                    <span class="corner corner--tr"></span>
+                    <span class="corner corner--bl"></span>
+                    <span class="corner corner--br"></span>
+                  </div>
+                </div>
+              </div>
+              <button class="btn-remove" id="clearBtn">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/>
+                </svg>
+                Remove Image
+              </button>
+            </div>
+          </div>
+
+          <!-- Predict Button -->
+          <button class="btn-predict" id="predictBtn" disabled>
+            <div class="btn-predict-bg"></div>
+            <span class="btn-predict-content">
+              <span id="predictBtnText">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polygon points="5 3 19 12 5 21 5 3"/>
+                </svg>
+                Analyse Sign
+              </span>
+              <div class="btn-spinner" id="btnSpinner" style="display:none;"></div>
+            </span>
+          </button>
+
+          
+        </div>
+
+        <!-- ── Results Panel ── -->
+        <div class="glass-card results-card" id="resultsCard">
+
+          <div class="card-header">
+            <div class="card-header-left">
+              <div class="card-icon card-icon--cyan">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                </svg>
+              </div>
+              <div>
+                <div class="card-title">Classification Result</div>
+              </div>
+            </div>
+            <div class="processing-badge" id="processingBadge" style="display:none;">
+              <div class="processing-pulse"></div>
+              Processing
+            </div>
+          </div>
+
+          <!-- Empty -->
+          <div class="state-empty" id="stateEmpty">
+            <div class="empty-visual">
+              <div class="empty-rings">
+                <div class="empty-ring empty-ring--1"></div>
+                <div class="empty-ring empty-ring--2"></div>
+                <div class="empty-ring empty-ring--3"></div>
+              </div>
+              <div class="empty-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+              </div>
+            </div>
+            <p class="empty-title">No Image Yet</p>
+          </div>
+
+          <!-- Result -->
+          <div class="state-result" id="stateResult" style="display:none;">
+
+            <!-- Top prediction -->
+            <div class="result-hero">
+              <div class="result-hero-left">
+                <div class="result-rank">#1 Match</div>
+                <div class="result-name" id="resultName">—</div>
+                <div class="result-class-raw" id="resultClassRaw">—</div>
+              </div>
+              <div class="result-hero-right">
+                <div class="conf-ring-wrap">
+                  <svg class="conf-ring" viewBox="0 0 80 80">
+                    <circle class="conf-ring-track" cx="40" cy="40" r="34"/>
+                    <circle class="conf-ring-fill" id="confRingFill" cx="40" cy="40" r="34"
+                            stroke-dasharray="213.6" stroke-dashoffset="213.6"/>
+                  </svg>
+                  <div class="conf-ring-label">
+                    <span class="conf-ring-pct" id="confRingPct">0%</span>
+                    <span class="conf-ring-sub">conf.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Confidence bar -->
+            <div class="conf-bar-section">
+              <div class="conf-bar-label">
+                <span>Confidence</span>
+                <span class="conf-bar-val" id="confBarVal">—</span>
+              </div>
+              <div class="conf-bar-track">
+                <div class="conf-bar-fill" id="confBarFill">
+                  <div class="conf-bar-shine"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Tags -->
+            <div class="result-tags" id="resultTags"></div>
+
+          </div>
+
+          <!-- Error -->
+          <div class="state-error" id="stateError" style="display:none;">
+            <div class="error-icon-wrap">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" y1="8" x2="12" y2="12"/>
+                <line x1="12" y1="16" x2="12.01" y2="16"/>
+              </svg>
+            </div>
+            <p class="error-title">Analysis Failed</p>
+            <p class="error-msg" id="errorMsg"></p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+  <!-- ══ FOOTER ══ -->
+  <footer class="footer">
+    <div class="footer-top">
+      <div class="footer-inner">
+
+        <div class="footer-brand-col">
+          <div class="footer-brand-row">
+            <div class="footer-logo-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                <path d="M2 17l10 5 10-5"/>
+                <path d="M2 12l10 5 10-5"/>
+              </svg>
+            </div>
+            <span class="footer-logo">Road<span>Sense</span></span>
+          </div>
+        </div>
+
+
+        <div class="footer-stats-col">
+          <div class="footer-link-title">Sign Categories</div>
+          <div class="footer-classes-pills">
+            <span>Exit Left</span><span>Exit Right</span>
+            <span>Give Way</span><span>No Entry</span>
+            <span>No Overtaking</span><span>One Way</span>
+            <span>Pedestrian</span><span>Roundabout</span>
+            <span>Speed Limit 20</span><span>Speed Limit 60</span>
+            <span>Speed Limit 100</span><span>Stop</span>
+            <span>Traffic Signal</span><span>Turn Left</span>
+            <span>Turn Right</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </footer>
+
+  <script src="/static/js/app.js"></script>
+</body>
+</html>

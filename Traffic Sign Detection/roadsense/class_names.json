@@ -1,0 +1,36 @@
+{
+  "classes": [
+    "exitleft",
+    "exitright",
+    "giveway",
+    "noentry",
+    "noovertaking",
+    "oneway",
+    "pedestrian",
+    "roundabout",
+    "speedlimit100",
+    "speedlimit20",
+    "speedlimit60",
+    "stop",
+    "trafficsignalahead",
+    "turnleft",
+    "turnright"
+  ],
+  "class_to_idx": {
+    "exitleft": 0,
+    "exitright": 1,
+    "giveway": 2,
+    "noentry": 3,
+    "noovertaking": 4,
+    "oneway": 5,
+    "pedestrian": 6,
+    "roundabout": 7,
+    "speedlimit100": 8,
+    "speedlimit20": 9,
+    "speedlimit60": 10,
+    "stop": 11,
+    "trafficsignalahead": 12,
+    "turnleft": 13,
+    "turnright": 14
+  }
+}
